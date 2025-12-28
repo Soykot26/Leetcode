@@ -67,3 +67,44 @@ int main() {
     }
 }
 
+/* ================= ADMIN PART ================= */
+
+void initAdmin() {
+    FILE *fp = fopen("admin.txt", "r");
+    if (fp) {
+        fclose(fp);
+        return;
+    }
+
+    fp = fopen("admin.txt", "w");
+    struct Admin admin = {"0001", "Default Admin", "admin"};
+    fprintf(fp, "%s,%s,%s\n", admin.id, admin.name, admin.password);
+    fclose(fp);
+}
+
+void adminLogin() {
+    struct Admin admin;
+    char id[10], pass[20];
+    FILE *fp = fopen("admin.txt", "r");
+
+    if (!fp) {
+        printf("Admin file not found!\n");
+        return;
+    }
+
+    fscanf(fp, "%9[^,],%49[^,],%19[^\n]",
+           admin.id, admin.name, admin.password);
+    fclose(fp);
+
+    printf("\nAdmin ID: ");
+    scanf("%s", id);
+    printf("Password: ");
+    scanf("%s", pass);
+
+    if (strcmp(id, admin.id) == 0 && strcmp(pass, admin.password) == 0) {
+        printf("Admin login successful!\n");
+        adminMenu();
+    } else {
+        printf("Invalid admin credentials!\n");
+    }
+}
