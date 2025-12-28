@@ -108,3 +108,72 @@ void adminLogin() {
         printf("Invalid admin credentials!\n");
     }
 }
+
+void adminMenu() {
+    int choice;
+    while (1) {
+        printf("\n===== Admin Menu =====\n");
+        printf("1. View All Accounts\n");
+        printf("2. Update Admin Info\n");
+        printf("3. Logout\n");
+        printf("Enter choice: ");
+        scanf("%d", &choice);
+        getchar();
+
+        switch (choice) {
+            case 1: viewAllAccounts(); break;
+            case 2: updateAdminInfo(); break;
+            case 3: return;
+            default: printf("Invalid choice!\n");
+        }
+    }
+}
+
+void updateAdminInfo() {
+    struct Admin admin;
+    FILE *fp = fopen("admin.txt", "r");
+    if (!fp) return;
+
+    fscanf(fp, "%9[^,],%49[^,],%19[^\n]",
+           admin.id, admin.name, admin.password);
+    fclose(fp);
+
+    printf("New Admin Name: ");
+    fgets(admin.name, sizeof(admin.name), stdin);
+    removeNewline(admin.name);
+
+    printf("New Password: ");
+    scanf("%19s", admin.password);
+
+    fp = fopen("admin.txt", "w");
+    fprintf(fp, "%s,%s,%s\n",
+            admin.id, admin.name, admin.password);
+    fclose(fp);
+
+    printf("Admin info updated successfully!\n");
+}
+
+// void viewAllAccounts() {
+//     FILE *fp = fopen("accounts.txt", "r");
+//     struct Account acc;
+//     int count = 0;
+//
+//     if (!fp) {
+//         printf("No accounts found!\n");
+//         return;
+//     }
+//
+//     printf("\nAccNo\tName\t\tBalance\n");
+//     while (fscanf(fp, "%d,%49[^,],%19[^,],%f\n",
+//            &acc.accountNumber, acc.name,
+//            acc.password, &acc.balance) != EOF) {
+
+//         printf("%d\t%-15s\t%.2f\n",
+//                acc.accountNumber, acc.name, acc.balance);
+//         count++;
+//     }
+//     fclose(fp);
+
+//     printf("Total Users: %d\n", count);
+// }
+
