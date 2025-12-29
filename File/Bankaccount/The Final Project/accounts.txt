@@ -1,4 +1,2 @@
-1001,saikot,123,0.00
-1002,d "/Users/soykot/Desktop/Leet Problems/File/Banka,ccount/The,0.00
-1003,inal Project/" && gcc Bank_Account.c -o Bank_Acco,unt,0.00
-1004,& "/Users/soykot/Desktop/Leet Problems/File/Banka,ccount/The,0.00
+1001,Saikot,123,4800.00
+1002,Shorfuddin Ahmed Soykot,2345,0.00
