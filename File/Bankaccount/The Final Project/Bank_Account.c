@@ -132,7 +132,7 @@ void adminMenu() {
 void updateAdminInfo() {
     struct Admin admin;
     FILE *fp = fopen("admin.txt", "r");
-    if (!fp) return;
+    if (!fp) return; 
 
     fscanf(fp, "%9[^,],%49[^,],%19[^\n]",
            admin.id, admin.name, admin.password);
@@ -346,66 +346,4 @@ void withdrawMoney(struct Account acc) {
     acc.balance -= amount;
     updateAccount(acc);
     printf("Withdrawal successful!\n");
-}
-
-void updateAccountInfo(struct Account acc) {
-    printf("New Full Name: ");
-    fgets(acc.name, sizeof(acc.name), stdin);
-    removeNewline(acc.name);
-
-    printf("New Password: ");
-    scanf("%19s", acc.password);
-
-    updateAccount(acc);
-    printf("Account updated successfully!\n");
-}
-
-void updateAccount(struct Account updatedAcc) {
-    FILE *fp = fopen("accounts.txt", "r");
-    FILE *tmp = fopen("temp.txt", "w");
-    struct Account acc;
-
-    if (!fp || !tmp) return;
-
-    while (fscanf(fp, "%d,%49[^,],%19[^,],%f\n",
-           &acc.accountNumber, acc.name,
-           acc.password, &acc.balance) != EOF) {
-
-        if (acc.accountNumber == updatedAcc.accountNumber)
-            fprintf(tmp, "%d,%s,%s,%.2f\n",
-                    updatedAcc.accountNumber,
-                    updatedAcc.name,
-                    updatedAcc.password,
-                    updatedAcc.balance);
-        else
-            fprintf(tmp, "%d,%s,%s,%.2f\n",
-                    acc.accountNumber,
-                    acc.name,
-                    acc.password,
-                    acc.balance);
-    }
-
-    fclose(fp);
-    fclose(tmp);
-    remove("accounts.txt");
-    rename("temp.txt", "accounts.txt");
-}
-
-int getAccountByNumber(int accNo, struct Account *acc) {
-    FILE *fp = fopen("accounts.txt", "r");
-    if (!fp) return 0;
-
-    while (fscanf(fp, "%d,%49[^,],%19[^,],%f\n",
-           &acc->accountNumber,
-           acc->name,
-           acc->password,
-           &acc->balance) != EOF) {
-
-        if (acc->accountNumber == accNo) {
-            fclose(fp);
-            return 1;
-        }
-    }
-    fclose(fp);
-    return 0;
 }
